@@ -1,20 +1,18 @@
 # fbpad_mkfn makefile
 CC = cc
 
-# For mkfn with stb_truetype.h
-CFLAGS = -O2 -Wall -DSTB_TRUETYPE_IMPLEMENTATION
-LDFLAGS = -lm
-MKFN = mkfn_stb.o
+CFLAGS = -O2 -Wall
+LDFLAGS =
 
-# For mkfn with freetype library
-#CFLAGS = -Wall -O2 `pkg-config --cflags freetype2`
-#LDFLAGS = `pkg-config --libs freetype2`
-#MKFN = mkfn_ft.o
-
-all: mkfn
+all: mkfn_ft mkfn_stb
 %.o: %.c
 	$(CC) -c $(CFLAGS) $<
-mkfn: mkfn.o $(MKFN) isdw.o
-	$(CC) $(LDFLAGS) -o $@ $^
+mkfn_ft: mkfn_ft.c mkfn.o isdw.o
+	$(CC) -c $(CFLAGS) `pkg-config --cflags freetype2` mkfn_ft.c
+	$(CC) -o $@ mkfn_ft.o mkfn.o isdw.o $(LDFLAGS) `pkg-config --libs freetype2`
+
+mkfn_stb: mkfn_stb.c mkfn.o isdw.o
+	$(CC) -c $(CFLAGS) -DSTB_TRUETYPE_IMPLEMENTATION mkfn_stb.c
+	$(CC) -o $@ mkfn_stb.o mkfn.o isdw.o $(LDFLAGS) -lm
 clean:
-	rm -f *.o mkfn
+	rm -f *.o mkfn_ft mkfn_stb

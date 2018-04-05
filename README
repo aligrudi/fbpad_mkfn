@@ -2,12 +2,12 @@ FBPAD_MKFN
 ==========
 
 This program generates fbpad font files.  It can use either
-stb_truetype.h (without external dependencies) or Freetype library,
-which can be specified in the Makefile.
+stb_truetype.h (without external dependencies) or Freetype library.
+For the former build mkfn_stb and for the latter build mkfn_ft.
 
 To control which glyphs to include in the generated font, especially
 to reduce the size of the files, edit chars.h.  The gen.sh script
-includes some examples for using mkfn.
+shows how to use mkfn.
 
 The height and width of the resulting font can be specified with the
 -h and -w options.  Mkfn expects font paths as its final arguments;
