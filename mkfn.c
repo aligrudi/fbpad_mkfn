@@ -88,12 +88,17 @@ int main(int argc, char *argv[])
 	char *wdiff = NULL;
 	char *hdiff = NULL;
 	for (i = 1; i < argc && argv[i][0] == '-'; i++) {
-		if (argv[i][1] == 'w')
+		if (argv[i][1] == 'w') {
 			wdiff = argv[i][2] ? argv[i] + 2 : argv[++i];
-		else if (argv[i][1] == 'h')
+		} else if (argv[i][1] == 'h') {
 			hdiff = argv[i][2] ? argv[i] + 2 : argv[++i];
-		else
-			fprintf(stderr, usage);
+		} else {
+			i = argc;
+		}
+	}
+	if (i == argc) {
+		fprintf(stderr, usage);
+		return 0;
 	}
 	mkfn_init();
 	for (; i < argc; i++) {
